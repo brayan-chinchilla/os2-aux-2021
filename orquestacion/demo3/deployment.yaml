@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    environment: test
+  name: testdeploy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      environment: test
+  minReadySeconds: 20
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate 
+  template: 
+     metadata:
+       labels:
+         environment: test
+     spec:
+       containers:
+       - image: us.gcr.io/playground-310623/angular-hello-world:v1
+         name: angular-hello-world 
+         ports:
+           - containerPort: 80
